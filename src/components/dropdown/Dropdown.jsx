@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { ThemeContext } from "../../theme-context";
+import { useDispatch } from "react-redux";
 
 import {
   SelectGroup,
@@ -9,20 +10,24 @@ import {
   SelectOption,
 } from "./DropdownStyles";
 
+import { getCountriesAsyncByRegion } from "../../redux/countriesSlice";
+
 const options = [
-  { id: "0", text: "Africa" },
-  { id: "1", text: "America" },
-  { id: "2", text: "Asia" },
-  { id: "3", text: "Europe" },
-  { id: "4", text: "Oceania" },
+  { id: "0", text: "Africa", value: "africa" },
+  { id: "1", text: "America", value: "america" },
+  { id: "2", text: "Asia", value: "asia" },
+  { id: "3", text: "Europe", value: "europe" },
+  { id: "4", text: "Oceania", value: "oceania" },
 ];
 
 function Dropdown() {
   const [filter, setFilter] = useState("");
   const [showOptions, setShowOptions] = useState(false);
+  const dispatch = useDispatch();
 
-  const filterSelected = (value) => {
-    setFilter(value);
+  const filterSelected = (filter) => {
+    dispatch(getCountriesAsyncByRegion({ region: filter.value }));
+    setFilter(filter.text);
   };
 
   const showFilterOptions = () => {
@@ -41,7 +46,7 @@ function Dropdown() {
             {options.map((op) => (
               <SelectOption
                 key={op.id}
-                onClick={filterSelected.bind(null, op.text)}
+                onClick={filterSelected.bind(null, op)}
                 theme={theme}
               >
                 {op.text}

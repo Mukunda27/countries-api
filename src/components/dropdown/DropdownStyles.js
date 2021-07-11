@@ -7,13 +7,19 @@ export const SelectGroup = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  flex-basis: 50%;
   margin: 1rem 0;
   position: relative;
   padding-right: 1rem;
+  border-radius: 8px;
+
   cursor: pointer;
   background-color: ${(props) =>
     props.theme === "light" ? "var(--white)" : "var(--dark-blue)"};
+
+  @media (min-width: 768px) {
+    flex-basis: 25%;
+  }
 `;
 
 export const CustomSelect = styled.div`
@@ -23,7 +29,7 @@ export const CustomSelect = styled.div`
     props.theme === "light" ? "var(--dark-blue-text)" : "var(--white)"};
   font-size: 1rem;
   padding: 0.75rem 1rem;
-  border-radius: 4px;
+  border-radius: 8px;
   border: none;
   outline: none;
   flex-grow: 1;
@@ -46,6 +52,8 @@ export const SelectOptionsContainer = styled.div`
     props.theme === "light" ? "var(--white)" : "var(--dark-blue)"};
   display: flex;
   flex-direction: column;
+  border-radius: 8px;
+
   z-index: 99;
 `;
 
@@ -58,10 +66,14 @@ export const SelectOption = styled.span`
   cursor: pointer;
   background-color: ${(props) =>
     props.theme === "light" ? "var(--white)" : "var(--dark-blue)"};
-  transition: background-color 0.1s ease-in;
 
-  &:hover {
-    background-color: ${(props) =>
-      props.theme === "light" ? "var(--light-grey)" : "var(--dark-blue-bg)"};
+  &:first-child {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
 `;
