@@ -7,7 +7,7 @@ export const SelectGroup = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-basis: 50%;
+  flex-basis: 100%;
   margin: 1rem 0;
   position: relative;
   padding-right: 1rem;
@@ -16,6 +16,10 @@ export const SelectGroup = styled.div`
   cursor: pointer;
   background-color: ${(props) =>
     props.theme === "light" ? "var(--white)" : "var(--dark-blue)"};
+
+  @media (min-width: 567px) {
+    flex-basis: 50%;
+  }
 
   @media (min-width: 768px) {
     flex-basis: 25%;

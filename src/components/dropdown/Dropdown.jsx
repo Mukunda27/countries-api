@@ -14,7 +14,7 @@ import { getCountriesAsyncByRegion } from "../../redux/countriesSlice";
 
 const options = [
   { id: "0", text: "Africa", value: "africa" },
-  { id: "1", text: "America", value: "america" },
+  { id: "1", text: "America", value: "americas" },
   { id: "2", text: "Asia", value: "asia" },
   { id: "3", text: "Europe", value: "europe" },
   { id: "4", text: "Oceania", value: "oceania" },

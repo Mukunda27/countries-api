@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../theme-context";
 
 import {
+  NavContainer,
   Nav,
   NavBarBrand,
   ThemeIndicator,
@@ -9,7 +10,7 @@ import {
   ThemeIcon,
 } from "./NavbarStyles";
 
-function NavBar({ setTheme }) {
+function NavBar({ setTheme, history }) {
   const theme = useContext(ThemeContext);
   const themeSelection =
     theme === "light" ? (
@@ -32,11 +33,20 @@ function NavBar({ setTheme }) {
       </Theme>
     );
 
+  const navigateToHome = () => {
+    history.push("/");
+  };
+
   return (
-    <Nav theme={theme}>
-      <NavBarBrand theme={theme}> Where in the world ? </NavBarBrand>
-      {themeSelection}
-    </Nav>
+    <NavContainer theme={theme}>
+      <Nav theme={theme}>
+        <NavBarBrand onClick={navigateToHome} theme={theme}>
+          {" "}
+          Where in the world ?{" "}
+        </NavBarBrand>
+        {themeSelection}
+      </Nav>
+    </NavContainer>
   );
 }
 

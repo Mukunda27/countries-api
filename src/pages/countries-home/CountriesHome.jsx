@@ -7,19 +7,22 @@ import { ThemeContext } from "../../theme-context";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getCountriesAsync } from "../../redux/countriesSlice";
+import { withRouter } from "react-router-dom";
 
 import {
+  OuterContainer,
   CountriesContainer,
   ResultContainer,
   SearchControls,
   CountriesList,
   ButtonContainer,
+  LoadingIndicator,
 } from "./CountriesHomeStyles";
 import Dropdown from "../../components/dropdown/Dropdown";
 import Button from "../../components/button/Button";
 
-function CountriesHome({ setTheme }) {
-  const [countriesShown, setcountriesShown] = useState(10);
+function CountriesHome({ setTheme, history }) {
+  const [countriesShown, setcountriesShown] = useState(8);
   const displatch = useDispatch();
   let countries = useSelector((state) => state.countries);
   const theme = useContext(ThemeContext);
@@ -29,23 +32,27 @@ function CountriesHome({ setTheme }) {
   }, [displatch]);
 
   useEffect(() => {
-    setcountriesShown(10);
+    setcountriesShown(8);
   }, [countries]);
 
   const showMoreCountries = () => {
-    setcountriesShown((state) => state + 10);
+    setcountriesShown((state) => state + 8);
   };
 
   let sortedCountries = [...countries];
   sortedCountries.sort((a, b) => b.population - a.population);
 
-  let countriesCards = sortedCountries.length ? (
-    sortedCountries
-      .slice(0, countriesShown)
-      .map((ctry) => <CountryCard key={ctry.alpha3Code} country={ctry} />)
-  ) : (
-    <h2>Loading..</h2>
-  );
+  let countriesCards = sortedCountries.length
+    ? sortedCountries
+        .slice(0, countriesShown)
+        .map((ctry) => (
+          <CountryCard key={ctry.alpha3Code} country={ctry} history={history} />
+        ))
+    : null;
+
+  const loading = !countries.length ? (
+    <LoadingIndicator theme={theme}>Loading..</LoadingIndicator>
+  ) : null;
 
   const showMoreBtn =
     countriesShown < sortedCountries.length ? (
@@ -56,17 +63,20 @@ function CountriesHome({ setTheme }) {
 
   return (
     <CountriesContainer>
-      <NavBar setTheme={setTheme} />
-      <ResultContainer theme={theme}>
-        <SearchControls>
-          <SearchInput />
-          <Dropdown />
-        </SearchControls>
-        <CountriesList>{countriesCards}</CountriesList>
-        {showMoreBtn}
-      </ResultContainer>
+      <NavBar history={history} setTheme={setTheme} />
+      <OuterContainer theme={theme}>
+        <ResultContainer theme={theme}>
+          <SearchControls>
+            <SearchInput />
+            <Dropdown />
+          </SearchControls>
+          <CountriesList>{countriesCards}</CountriesList>
+          {loading}
+          {showMoreBtn}
+        </ResultContainer>
+      </OuterContainer>
     </CountriesContainer>
   );
 }
 
-export default CountriesHome;
+export default withRouter(CountriesHome);

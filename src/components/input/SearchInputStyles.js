@@ -17,10 +17,12 @@ export const SearchGroup = styled.div`
 
   @media (min-width: 768px) {
     flex-basis: 70%;
+    margin: 0;
   }
 
   @media (min-width: 992px) {
     flex-basis: 50%;
+    margin: 0;
   }
 `;
 
