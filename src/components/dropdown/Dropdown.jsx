@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { ThemeContext } from "../../theme-context";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setCategoryFilter } from "../../redux/searchSlice";
 
 import {
   SelectGroup,
@@ -10,24 +12,22 @@ import {
   SelectOption,
 } from "./DropdownStyles";
 
-import { getCountriesAsyncByRegion } from "../../redux/countriesSlice";
-
 const options = [
-  { id: "0", text: "Africa", value: "africa" },
-  { id: "1", text: "America", value: "americas" },
-  { id: "2", text: "Asia", value: "asia" },
-  { id: "3", text: "Europe", value: "europe" },
-  { id: "4", text: "Oceania", value: "oceania" },
+  { id: "0", text: "All", value: "all" },
+  { id: "1", text: "Africa", value: "africa" },
+  { id: "2", text: "Americas", value: "americas" },
+  { id: "3", text: "Asia", value: "asia" },
+  { id: "4", text: "Europe", value: "europe" },
+  { id: "5", text: "Oceania", value: "oceania" },
 ];
 
 function Dropdown() {
-  const [filter, setFilter] = useState("");
+  const filter = useSelector((state) => state.search).categoryFilter;
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();
 
   const filterSelected = (filter) => {
-    dispatch(getCountriesAsyncByRegion({ region: filter.value }));
-    setFilter(filter.text);
+    dispatch(setCategoryFilter(filter.value));
   };
 
   const showFilterOptions = () => {
@@ -40,7 +40,9 @@ function Dropdown() {
   return (
     <SelectGroup theme={theme} onClick={showFilterOptions}>
       <CustomSelect theme={theme}>
-        {filter || "Filter by categpry"}
+        {filter
+          ? filter[0].toUpperCase().concat(filter.slice(1))
+          : "Filter by categpry"}
         {showOptions && (
           <SelectOptionsContainer theme={theme}>
             {options.map((op) => (

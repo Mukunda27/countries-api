@@ -15,6 +15,7 @@ import {
   CountryImg,
   CountryInfSection,
   BorderInfoSubSection,
+  BorderTitle,
   CountryName,
   CountryInfo,
   CountryInfoSubSection,
@@ -68,14 +69,15 @@ function CountryDetail({ setTheme, history }) {
   const bordersSection = borders ? (
     <BorderInfoSubSection>
       <CountryInfo>
-        <strong>Borders Countries:</strong>
-        {borders.map((border) => (
+        <BorderTitle>
+          <strong>Borders Countries:</strong>
+        </BorderTitle>
+        {borders.slice(0, 3).map((border) => (
           <Button
             clicked={showCountryDetails.bind(null, border.alpha3Code)}
             key={border.alpha3Code}
           >
-            {" "}
-            {border.name}{" "}
+            {border.name}
           </Button>
         ))}
       </CountryInfo>

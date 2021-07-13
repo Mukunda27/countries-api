@@ -6,7 +6,12 @@ import { ThemeContext } from "../../theme-context";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getCountriesAsync } from "../../redux/countriesSlice";
+import {
+  getCountriesAsync,
+  getCountriesAsyncByName,
+  getCountriesAsyncByRegion,
+  getCountriesAsyncByRegionAndName,
+} from "../../redux/countriesSlice";
 import { withRouter } from "react-router-dom";
 
 import {
@@ -25,11 +30,31 @@ function CountriesHome({ setTheme, history }) {
   const [countriesShown, setcountriesShown] = useState(8);
   const displatch = useDispatch();
   let countries = useSelector((state) => state.countries);
+  const search = useSelector((state) => state.search);
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    displatch(getCountriesAsync());
-  }, [displatch]);
+    if (search.searchInput && search.categoryFilter) {
+      if (search.categoryFilter === "all") {
+        displatch(getCountriesAsyncByName({ name: search.searchInput }));
+      } else {
+        displatch(
+          getCountriesAsyncByRegionAndName({
+            name: search.searchInput,
+            region: search.categoryFilter,
+          })
+        );
+      }
+    } else if (search.categoryFilter === "all") {
+      displatch(getCountriesAsync());
+    } else if (search.categoryFilter) {
+      displatch(getCountriesAsyncByRegion({ region: search.categoryFilter }));
+    } else if (search.searchInput) {
+      displatch(getCountriesAsyncByName({ name: search.searchInput }));
+    } else {
+      displatch(getCountriesAsync());
+    }
+  }, [search, displatch]);
 
   useEffect(() => {
     setcountriesShown(8);

@@ -51,6 +51,27 @@ export const getCountriesAsyncByName = createAsyncThunk(
   }
 );
 
+export const getCountriesAsyncByRegionAndName = createAsyncThunk(
+  "countries/getCountriesAsyncByRegionAndName",
+  async (payload) => {
+    let response;
+    if (payload.name) {
+      response = await fetch(`${ALL_COUNTRIES_API_BY_NAME}${payload.name}`);
+    } else {
+      response = await fetch(ALL_COUNTRIES_API);
+    }
+    if (response.ok) {
+      let countries = await response.json();
+      countries = countries.filter(
+        (ctry) => ctry.region.toLowerCase() === payload.region
+      );
+      return { countries };
+    } else {
+      return [];
+    }
+  }
+);
+
 const countriesSlice = createSlice({
   name: "countries",
   initialState: [],
@@ -62,6 +83,9 @@ const countriesSlice = createSlice({
       return action.payload.countries;
     },
     [getCountriesAsyncByName.fulfilled]: (state, action) => {
+      return action.payload.countries;
+    },
+    [getCountriesAsyncByRegionAndName.fulfilled]: (state, action) => {
       return action.payload.countries;
     },
   },

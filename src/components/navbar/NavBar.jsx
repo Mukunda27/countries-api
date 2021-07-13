@@ -12,6 +12,7 @@ import {
 
 function NavBar({ setTheme, history }) {
   const theme = useContext(ThemeContext);
+
   const themeSelection =
     theme === "light" ? (
       <Theme
@@ -41,8 +42,7 @@ function NavBar({ setTheme, history }) {
     <NavContainer theme={theme}>
       <Nav theme={theme}>
         <NavBarBrand onClick={navigateToHome} theme={theme}>
-          {" "}
-          Where in the world ?{" "}
+          Where in the world ?
         </NavBarBrand>
         {themeSelection}
       </Nav>

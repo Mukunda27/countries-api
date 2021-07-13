@@ -1,26 +1,18 @@
-import React, { useState, useContext, useCallback } from "react";
-import debounce from "lodash/debounce";
+import React, { useContext } from "react";
 import { ThemeContext } from "../../theme-context";
 import { useDispatch } from "react-redux";
-import { getCountriesAsyncByName } from "../../redux/countriesSlice";
-
+import { useSelector } from "react-redux";
+import { setSearchInput } from "../../redux/searchSlice";
 import { SearchGroup, Input, SearchIcon } from "./SearchInputStyles";
 
 function SearchInput() {
-  const [search, setSearch] = useState("");
+  const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
   const theme = useContext(ThemeContext);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedGetCountries = useCallback(
-    debounce((name) => dispatch(getCountriesAsyncByName({ name })), 200),
-    []
-  );
-
   const handleChange = (event) => {
     const search = event.target.value;
-    setSearch(search);
-    debouncedGetCountries(search);
+    dispatch(setSearchInput(search));
   };
 
   return (
@@ -28,7 +20,7 @@ function SearchInput() {
       <SearchIcon theme={theme} />
       <Input
         theme={theme}
-        value={search}
+        value={search.searchInput}
         onChange={handleChange}
         type="search"
         placeholder="Search for a country.."

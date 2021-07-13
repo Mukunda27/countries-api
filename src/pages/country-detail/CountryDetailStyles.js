@@ -67,6 +67,7 @@ export const CountryInfSection = styled.div`
   flex-direction: column;
   color: ${(props) =>
     props.theme === "light" ? "var(--dark-blue-text)" : "var(--white)"};
+
   @media (min-width: 1200px) {
     padding: 2rem 0;
     place-self: center;
@@ -92,6 +93,14 @@ export const BorderInfoSubSection = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
+`;
+
+export const BorderTitle = styled.div`
+  flex-basis: 100%;
+
+  @media (min-width: 1200px) {
+    flex-basis: auto;
+  }
 `;
 
 export const CountryInfo = styled.span`

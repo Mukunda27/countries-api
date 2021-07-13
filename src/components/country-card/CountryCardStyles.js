@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const CardWrapper = styled.div`
   width: 100%;
-  height: 400px;
+  height: 500px;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -10,15 +10,23 @@ export const CardWrapper = styled.div`
 
   background-color: ${(props) =>
     props.theme === "light" ? "var(--white)" : "var(--dark-blue)"};
+
+  @media (min-width: 992px) {
+    height: 400px;
+  }
 `;
 
 export const CardImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   object-position: center center;
+
+  @media (min-width: 992px) {
+    height: 200px;
+  }
 `;
 
 export const CountryDetails = styled.div`
